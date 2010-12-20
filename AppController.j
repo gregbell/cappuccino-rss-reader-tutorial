@@ -7,26 +7,35 @@
  */
 
 @import <Foundation/CPObject.j>
-
+@import "FeedsController.j"
+@import "Feed.j"
+@import <Foundation/CPURL.j>
 
 @implementation AppController : CPObject
 {
-    CPWindow    theWindow; //this "outlet" is connected automatically by the Cib
-}
-
-- (void)applicationDidFinishLaunching:(CPNotification)aNotification
-{
-    // This is called when the application is done loading.
+    @outlet CPWindow    theWindow; //this "outlet" is connected automatically by the Cib
+    @outlet CPTableView feedsTableView;
+    FeedsController feedsController;
 }
 
 - (void)awakeFromCib
 {
-    // This is called when the cib is done loading.
-    // You can implement this method on any object instantiated from a Cib.
-    // It's a useful hook for setting up current UI values, and other things. 
-    
-    // In this case, we want the window from Cib to become our full browser window
-    [theWindow setFullBridge:YES];
+  feedsController = [[FeedsController alloc] initWithTableView:feedsTableView];
+
+  var feed1 = [[Feed alloc] initWithURL:[[CPURL alloc] initWithString:@"http://cappuccino.org/discuss/feed"]];
+  var feed2 = [[Feed alloc] initWithURL:[[CPURL alloc] initWithString:@"http://cappuccino.org/discuss/feed"]];
+
+  [feedsController addFeed:feed1];
+  [feedsController addFeed:feed2];
+
+  [theWindow setFullBridge:YES];
+}
+
+- (void)newFeed:(id)sender
+{
+  var url = [[CPURL alloc] initWithString:prompt("Feed URL")];
+  var feed = [[Feed alloc] initWithURL:url];
+  [feedsController addFeed:feed];
 }
 
 @end
