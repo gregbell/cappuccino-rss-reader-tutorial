@@ -3,7 +3,7 @@
 @implementation Feed : CPObject
 {
   CPString    title;
-  CPURL       url;
+  CPURL       url @accessors;
 }
 
 - (id)initWithURL:(CPURL)aURL
@@ -20,9 +20,9 @@
 
 - (void)setURL:(CPURL)aURL
 {
-  URL = aURL;
-  title = [URL host];
-  iconPath = @"http://" + [URL host] + @"/favicon.ico";
+  url = aURL;
+  title = [url host];
+  iconPath = @"http://" + [url host] + @"/favicon.ico";
 }
 
 

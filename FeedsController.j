@@ -5,6 +5,7 @@
 {
   CPArray     feeds;
   CPTableView tableView;
+  CPObject    delegate @accessors;
 }
 
 - (id)initWithTableView:(CPTableView)aTableView
@@ -13,6 +14,7 @@
   if(self) {
     tableView = aTableView;
     [tableView setDataSource:self];
+    [tableView setDelegate:self];
     feeds = [];
   }
   return self;
@@ -37,5 +39,15 @@
   return [[feeds objectAtIndex:index] title];
 }
 
+@end
+
+@implementation FeedsController (CPTableViewDelegateMethods)
+
+- (void)tableViewSelectionDidChange:(CPNotification)aNotification
+{
+  var feed = [feeds objectAtIndex:[tableView selectedRow]];
+  CPLog(@"%@", feed);
+  [delegate feedSelectionDidChange:feed];
+}
 
 @end
