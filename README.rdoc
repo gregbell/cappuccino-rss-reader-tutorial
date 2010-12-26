@@ -1,0 +1,4 @@
+== A Cappuccino RSS Reader Tutorial
+
+This is a project we built at VersaPay (http://versapay.com) as a lunch and learn
+to try out the Cappuccino framework.
